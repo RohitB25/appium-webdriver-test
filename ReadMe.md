@@ -23,7 +23,7 @@ Before you start, make sure you have the following installed:
 To get started with the project, follow these steps:
 
     1. Clone the repository:
-      -  git clone https://github.com/yourusername/yourproject.git
+      -  git clone https://github.com/RohitB25/appium-webdriver-test.git
         
     2. Navigate to the project directory:
        -  cd yourproject
