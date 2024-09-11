@@ -45,6 +45,8 @@ exports.config = {
     // from the same test should run tests.
     //
     maxInstances: 10,
+
+
     //
     // If you have trouble getting all important capabilities together, check out the
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -52,12 +54,12 @@ exports.config = {
     //
     capabilities: [{
         // capabilities for local Appium web tests on an Android Emulator
-         platformName: 'Android',
+        platformName: 'Android',
         'appium:deviceName': 'Pixel 5',
         'appium:automationName': 'UiAutomator2',
         "appium:app": "./app/saucelab.apk",
-        "appium:appActivity" : 'com.swaglabsmobileapp.MainActivity',
-        "appium:appPackage" :'com.swaglabsmobileapp',
+        "appium:appActivity": 'com.swaglabsmobileapp.MainActivity',
+        "appium:appPackage": 'com.swaglabsmobileapp',
         'appium:noReset': false,
         'appium:fullReset': false,
     }],
@@ -118,7 +120,7 @@ exports.config = {
     // Make sure you have the wdio adapter package for the specific framework installed
     // before running any tests.
     framework: 'cucumber',
-    
+
     //
     // The number of times to retry the entire specfile when it fails as a whole
     // specFileRetries: 1,
@@ -132,8 +134,10 @@ exports.config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: [['allure', {outputDir: 'allure-results', disableWebdriverStepsReporting: false,
-        disableWebdriverScreenshotsReporting: false,}]],
+    reporters: [['allure', {
+        outputDir: 'allure-results', disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: false,
+    }]],
 
     // If you are using Cucumber you need to specify the location of your step definitions.
     cucumberOpts: {
@@ -241,12 +245,10 @@ exports.config = {
      * @param {object}                 context  Cucumber World object
      */
     beforeScenario: async function (world, context) {
-        await driver.execute('mobile: activateApp', {
-         appId: 'com.swaglabsmobileapp' 
-         
-     });
-     console.log('App has been launched.');
-     },
+
+        await driver.activateApp('com.swaglabsmobileapp')
+        console.log('App has been launched.');
+    },
     /**
      *
      * Runs before a Cucumber Step.
@@ -280,15 +282,12 @@ exports.config = {
      * @param {object}                 context          Cucumber World object
      */
     afterScenario: async function (world, result, context) {
-        try {
-            await driver.execute('mobile: terminateApp', {
-                appId: 'com.swaglabsmobileapp'
-            });
-            console.log('App has been terminated.');
-        } catch (error) {
-            console.error('Failed to terminate app:', error);
-        }
-     },
+
+        await driver.terminateApp('com.swaglabsmobileapp')
+        console.log('App has been terminated.');
+
+
+    },
     /**
      *
      * Runs after a Cucumber Feature.
@@ -297,7 +296,7 @@ exports.config = {
      */
     // afterFeature: function (uri, feature) {
     // },
-    
+
     /**
      * Runs after a WebdriverIO command gets executed
      * @param {string} commandName hook command name
@@ -323,7 +322,7 @@ exports.config = {
      * @param {Array.<String>} specs List of spec file paths that ran
      */
     // afterScenario: async function (world, result, context) {
-    //    },
+    // },
     /**
      * Gets executed after all workers got shut down and the process is about to exit. An error
      * thrown in the onComplete hook will result in the test run failing.
