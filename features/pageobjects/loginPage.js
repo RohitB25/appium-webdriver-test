@@ -26,7 +26,6 @@ class LoginPage {
      * Performs the login action by providing username and password and then clicking the submit button.
      * @param {string} username - used for entered into the username input field.
      * @param {string} password - used for entered into the password input field.
-     * @returns {Promise<void>} A promise that resolves when the login action is complete.
      */
     async login(username, password) {
         await this.inputUsername.setValue(username);
@@ -36,7 +35,7 @@ class LoginPage {
 
     /**
      * Retrieves the text of the login error message displayed on the page.
-     * @returns {Promise<string>} A promise that resolves to the text of the login error message.
+     * @returns {<string>} text of the login error message.
      */
     async getLoginErrorMessage() {
         return this.errorMessage.getText();
