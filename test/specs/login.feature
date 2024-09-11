@@ -1,7 +1,9 @@
-Feature: The suacelabe login
+Feature: Login functionality in saucelab application
+As a user, I want to be able to log in using valid credentials, 
+And I should receive error messages when providing invalid credentials. 
 
-  Background:
-    Given I am on the login page
+  Background: Navigating to login page
+    Given I open the application
    
  @Smoke
   Scenario Outline: As a user, I can log into the saucelab application with valid credintials

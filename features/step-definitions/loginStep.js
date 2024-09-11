@@ -5,7 +5,7 @@ import HomePage from '../pageobjects/homePage';
 
 
 
-Given(/^I am on the login page$/, () => {
+Given(/^I open the application$/, () => {
     console.log("on Login Page")
 
 });
