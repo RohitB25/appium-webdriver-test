@@ -2,9 +2,7 @@ import { $ } from '@wdio/globals'
 
 
 class LoginPage {
-    /**
-     * define selectors using getter methods
-     */
+    
     get inputUsername() {
         return $('//android.widget.EditText[@content-desc="test-Username"]');
     }
