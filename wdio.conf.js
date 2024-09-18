@@ -1,4 +1,6 @@
-exports.config = {
+import path from 'path';
+
+export const config = {
     //
     // ====================
     // Runner Configuration
@@ -57,7 +59,7 @@ exports.config = {
         platformName: 'Android',
         'appium:deviceName': 'Pixel 5',
         'appium:automationName': 'UiAutomator2',
-        "appium:app": "./app/saucelab.apk",
+        "appium:app": path.join(process.cwd(), "./app/saucelab.apk"),
         "appium:appActivity": 'com.swaglabsmobileapp.MainActivity',
         "appium:appPackage": 'com.swaglabsmobileapp',
         'appium:noReset': false,
@@ -111,7 +113,18 @@ exports.config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ['appium'],
+    services: [
+        [
+            "appium",
+            {
+                command: "appium",
+                args: {
+                    host: "127.0.0.1",
+                    port: 4723,
+                },
+            },
+        ],
+    ],
 
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
