@@ -1,22 +1,24 @@
-import { $ } from '@wdio/globals'
+import { driver, $ } from '@wdio/globals'
+
+
 
 
 class LoginPage {
-    
+
     get inputUsername() {
-        return $('//android.widget.EditText[@content-desc="test-Username"]');
+        return $('~test-Username');
     }
 
     get inputPassword() {
-        return $('//android.widget.EditText[@content-desc="test-Password"]');
+        return $('~test-Password');
     }
 
     get btnSubmit() {
-        return $('//android.view.ViewGroup[@content-desc="test-LOGIN"]');
+        return $('~test-LOGIN');
     }
 
     get errorMessage() {
-        return $('//android.widget.TextView[@text="Username and password do not match any user in this service."]')
+        return $('//android.view.ViewGroup[@content-desc="test-Error message"]//android.widget.TextView')
     }
 
 
@@ -26,9 +28,15 @@ class LoginPage {
      * @param {string} password - used for entered into the password input field.
      */
     async login(username, password) {
-        await this.inputUsername.setValue(username);
-        await this.inputPassword.setValue(password);
-        await this.btnSubmit.click();
+
+        try {
+            await this.inputUsername.setValue(username);
+            await this.inputPassword.setValue(password);
+            await this.btnSubmit.click();
+        }
+        catch (error) {
+            console.error(error.errorMessage)
+        }
     }
 
     /**

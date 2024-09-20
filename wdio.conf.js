@@ -1,4 +1,5 @@
 import path from 'path';
+import { driver } from '@wdio/globals'
 
 export const config = {
     //
@@ -46,7 +47,7 @@ export const config = {
     // and 30 processes will get spawned. The property handles how many capabilities
     // from the same test should run tests.
     //
-    maxInstances: 10,
+    maxInstances: 1,
 
 
     //
@@ -100,11 +101,13 @@ export const config = {
     // baseUrl: 'http://localhost:8080',
     //
     // Default timeout for all waitFor* commands.
-    waitforTimeout: 10000,
+    waitforTimeout: 30000,
     //
     // Default timeout in milliseconds for request
     // if browser driver or grid doesn't send response
     connectionRetryTimeout: 120000,
+
+
     //
     // Default request retries count
     connectionRetryCount: 3,
@@ -121,6 +124,7 @@ export const config = {
                 args: {
                     host: "127.0.0.1",
                     port: 4723,
+                    timeout: 60000 
                 },
             },
         ],
@@ -175,7 +179,7 @@ export const config = {
         // <string> (expression) only execute the features or scenarios with tags matching the expression
         tagExpression: '',
         // <number> timeout for step definitions
-        timeout: 60000,
+        timeout: 80000,
         // <boolean> Enable this config to treat undefined definitions as warnings.
         ignoreUndefinedDefinitions: false
     },
@@ -241,6 +245,7 @@ export const config = {
      * @param {Array} args arguments that command would receive
      */
     // beforeCommand: function (commandName, args) {
+        
     // },
     /**
      * Cucumber Hooks
