@@ -12,7 +12,7 @@ class HomePage {
     * @returns element of page header.
     */
     async getPageHeader() {
-        return this.pageHeader;
+        return this.pageHeader.getText();
     }
 
 }

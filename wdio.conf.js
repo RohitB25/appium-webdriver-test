@@ -47,7 +47,7 @@ export const config = {
     // and 30 processes will get spawned. The property handles how many capabilities
     // from the same test should run tests.
     //
-    maxInstances: 1,
+    maxInstances: 10,
 
 
     //
@@ -58,7 +58,7 @@ export const config = {
     capabilities: [{
         // capabilities for local Appium web tests on an Android Emulator
         platformName: 'Android',
-        'appium:deviceName': 'Pixel 5',
+        'appium:deviceName': 'API 35',
         'appium:automationName': 'UiAutomator2',
         "appium:app": path.join(process.cwd(), "./app/saucelab.apk"),
         "appium:appActivity": 'com.swaglabsmobileapp.MainActivity',
@@ -74,7 +74,7 @@ export const config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: 'info',
+    logLevel: 'silent',
     //
     // Set specific log levels per logger
     // loggers:
@@ -124,7 +124,7 @@ export const config = {
                 args: {
                     host: "127.0.0.1",
                     port: 4723,
-                    timeout: 60000 
+                    timeout: 60000
                 },
             },
         ],
@@ -152,8 +152,9 @@ export const config = {
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
     reporters: [['allure', {
-        outputDir: 'allure-results', disableWebdriverStepsReporting: true,
-        disableWebdriverScreenshotsReporting: false,
+        outputDir: 'allure-results',
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: true,
     }]],
 
     // If you are using Cucumber you need to specify the location of your step definitions.
@@ -245,7 +246,7 @@ export const config = {
      * @param {Array} args arguments that command would receive
      */
     // beforeCommand: function (commandName, args) {
-        
+
     // },
     /**
      * Cucumber Hooks
@@ -265,7 +266,7 @@ export const config = {
     beforeScenario: async function (world, context) {
 
         await driver.activateApp('com.swaglabsmobileapp')
-        console.log('App has been launched.');
+
     },
     /**
      *
@@ -302,7 +303,7 @@ export const config = {
     afterScenario: async function (world, result, context) {
 
         await driver.terminateApp('com.swaglabsmobileapp')
-        console.log('App has been terminated.');
+
 
 
     },
