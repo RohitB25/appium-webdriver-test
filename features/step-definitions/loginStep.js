@@ -2,6 +2,7 @@ import { Given, When, Then } from '@wdio/cucumber-framework';
 import { expect } from '@wdio/globals';
 import LoginPage from '../pageobjects/loginPage';
 import HomePage from '../pageobjects/homePage';
+let homePageProduct;
 
 
 
@@ -33,4 +34,20 @@ Then(/^I can see the error "([^"]*)"$/, async (errorMessage) => {
 When(/^I login with "([^"]*)" and "([^"]*)"$/, async (userName, password) => {
     console.log("set value username and password")
     await LoginPage.login(userName, password)
+});
+
+Then(/^I select addToCart for second product on the page$/, async () => {
+    await HomePage.clickAddToCartForSecondProduct()
+    homePageProduct = await HomePage.fetchHomePageProduct()
+    console.log("homePageProduct : " + homePageProduct)
+});
+
+Then(/^I click on cartIcon$/, async () => {
+    await HomePage.clickCartIcon();
+});
+
+Then(/^I can see the prodcut name on the cartPage$/, async () => {
+    let checkoutPageProduct = await HomePage.fetchCheckoutPageProduct()
+    console.log("checkoutPageProduct :" + checkoutPageProduct)
+    expect(homePageProduct).toBe(checkoutPageProduct)
 });

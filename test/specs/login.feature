@@ -9,6 +9,11 @@ And I should receive error messages when providing invalid credentials.
   Scenario Outline: As a user, I can log into the saucelab application with valid credintials
     When I login with <username> and <password>
     Then I can see the header on top of page with "<message>"
+    And I select addToCart for second product on the page
+    And I click on cartIcon
+    Then I can see the prodcut name on the cartPage
+
+
 
     Examples:
     |message|

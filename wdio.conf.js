@@ -1,5 +1,8 @@
 import path from 'path';
 import { driver } from '@wdio/globals'
+import AllureReporter from "@wdio/allure-reporter";
+import os from "os";
+
 
 export const config = {
     //
@@ -58,7 +61,7 @@ export const config = {
     capabilities: [{
         // capabilities for local Appium web tests on an Android Emulator
         platformName: 'Android',
-        'appium:deviceName': 'API 35',
+        'appium:deviceName': 'Pixel 5',
         'appium:automationName': 'UiAutomator2',
         "appium:app": path.join(process.cwd(), "./app/saucelab.apk"),
         "appium:appActivity": 'com.swaglabsmobileapp.MainActivity',
@@ -151,11 +154,20 @@ export const config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: [['allure', {
-        outputDir: 'allure-results',
-        disableWebdriverStepsReporting: true,
-        disableWebdriverScreenshotsReporting: true,
-    }]],
+    reporters: [['allure',
+        {
+            outputDir: 'allure-results',
+            reportedEnvironmentVars: {
+                os_platform: os.platform(),
+                os_release: os.release(),
+                os_version: os.version(),
+                node_version: process.version,
+            },
+            disableWebdriverStepsReporting: true,
+            disableWebdriverScreenshotsReporting: true,
+
+
+        }]],
 
     // If you are using Cucumber you need to specify the location of your step definitions.
     cucumberOpts: {
@@ -178,7 +190,7 @@ export const config = {
         // <boolean> fail if there are any undefined or pending steps
         strict: false,
         // <string> (expression) only execute the features or scenarios with tags matching the expression
-        tagExpression: '',
+        tagExpression: '@Smoke',
         // <number> timeout for step definitions
         timeout: 80000,
         // <boolean> Enable this config to treat undefined definitions as warnings.
@@ -288,8 +300,21 @@ export const config = {
      * @param {number}             result.duration  duration of scenario in milliseconds
      * @param {object}             context          Cucumber World object
      */
-    // afterStep: function (step, scenario, result, context) {
-    // },
+    afterStep: async function (step, scenario, { passed, duration, error }, context) {
+        console.log(`Completed step: ${step.text}`);
+        console.log(passed)
+        if (!passed) {
+            console.log("after test :", passed);
+            // Take screenshot if the test failed
+            try {
+                const screenshot = await driver.takeScreenshot();
+                // Attach screenshot to Allure report
+                AllureReporter.addAttachment(`Screenshot on Failure for specs:${step.text}`, Buffer.from(screenshot, 'base64'), 'image/png');
+            } catch (error) {
+                console.log("Error in AfterStep")
+            }
+        }
+    },
     /**
      *
      * Runs after a Cucumber Scenario.
